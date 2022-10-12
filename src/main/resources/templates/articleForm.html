@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="kr">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시글 작성</title>
@@ -25,16 +25,17 @@
 </style>
 <body>
 <div class="layout">
-    <form name="article" action="" method="post">
+    <form name="article" action="/article/write" method="post">
 
             <label for="title">제목</label>
-            <input type="text" id="title" name="title" placeholder="제목">
+            <input th:if="not ${article?.id}" type="text" name="title" placeholder="제목">
+            <input th:if="${article?.id}" th:value="${article.title}" type="text" name="title" placeholder="제목">
 
-            <label for="content">제목</label>
-            <textarea id="content" name="content" placeholder="내용을 입력하세요"></textarea>
+            <label for="content">내용</label>
+            <textarea th:if="not ${article?.id}" name="content" placeholder="내용을 입력하세요"></textarea>
+            <textarea th:if="${article?.id}" th:text="${article.content}" name="content" placeholder="내용을 입력하세요"></textarea>
 
             <input type="submit" value="작성">
-
 
     </form>
 </div>

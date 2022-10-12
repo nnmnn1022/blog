@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 페이지</title>
+</head>
+<style>
+    .layout {
+        width : 500px;
+        margin : 0 auto;
+        margin-top : 40px;
+    }
+
+    .layout input {
+        width : 100%;
+        box-sizing : border-box;
+    }
+
+    .layout textarea {
+        width : 100%;
+        margin-top : 10px;
+        min-height : 300px;
+    }
+
+</style>
+<body>
+<div class="layout">
+    <table>
+        <thead>
+            <tr>
+                <th th:text="${article.title}"></th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${article.content}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/article/modify/{id}(id = ${article.id})}">수정</a>
+    <a th:href="@{/article/delete/{id}(id = ${article.id})}">삭제</a>
+</div>
+</body>
+</html>
