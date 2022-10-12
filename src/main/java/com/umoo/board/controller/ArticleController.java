@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -25,6 +26,16 @@ public class ArticleController {
     }
 
     /**
+     * 게시글 작성 후 POST
+     * articleList 페이지
+     */
+    @PostMapping("/article/write")
+    public String articleWrite(Article article) {
+        articleService.write(article);
+        return  "redirect:/article/list";
+    }
+
+    /**
      * 게시글 수정 폼 GET
      * articleForm 페이지
      */
@@ -36,13 +47,23 @@ public class ArticleController {
     }
 
     /**
-     * 게시글 작성 후 POST
-     * articleList 페이지
+     * 게시글 수정 후 POST
+     * articleView
      */
-    @PostMapping("/article/write")
-    public String articleWrite(Article article) {
-        articleService.write(article);
-        return  "redirect:/article/list";
+    @PostMapping("/article/modify/{id}")
+    public String articleModify(Model model, @PathVariable("id") Long id, Article article) {
+        // 준영속 상태의 엔티티를 DB에서 객체로 가져와 수정하고 다시 저장하는 방식이므로 권장되는 방식이 아님
+        Article tmpArticle = articleView(id);
+        articleService.modify();
+        // 가능한 dirtyChecking 사용
+        // @Transactional
+        //void updateMember(Member memberParam)
+        //Member findMember = em.find(Member.class, memberParam.getId());
+        //
+        //findMember.setName(memberParam.getName());
+
+        model.addAttribute("article", articleService.View(id));
+        return "articleView/" + id;
     }
 
     /**

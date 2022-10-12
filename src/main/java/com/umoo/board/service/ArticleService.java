@@ -20,6 +20,11 @@ public class ArticleService {
         articleRepository.save(article);
     }
 
+    public void rewrite(Article article){
+
+        articleRepository.save(article);
+    }
+
     public List<Article> List(){
 
         return articleRepository.findAll();
