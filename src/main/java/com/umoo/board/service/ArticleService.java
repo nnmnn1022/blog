@@ -20,22 +20,17 @@ public class ArticleService {
         articleRepository.save(article);
     }
 
-    public void rewrite(Article article){
-
-        articleRepository.save(article);
-    }
-
-    public List<Article> List(){
+    public List<Article> list(){
 
         return articleRepository.findAll();
     }
 
-    public Article View(Long id){
+    public Article view(Long id){
 
         return articleRepository.findById(id).get();
     }
 
-    public void Delete(Long id){
+    public void delete(Long id){
         articleRepository.deleteById(id);
     }
 

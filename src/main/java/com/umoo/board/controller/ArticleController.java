@@ -21,7 +21,7 @@ public class ArticleController {
      * articleForm 페이지
      */
     @GetMapping("/article/write") //domain.com/board/write
-    public String articleForm() {
+    public String articleWrite() {
         return "articleForm";
     }
 
@@ -40,10 +40,9 @@ public class ArticleController {
      * articleForm 페이지
      */
     @GetMapping("/article/modify/{id}")
-    public String articleForm(Model model, @PathVariable("id") Long id) {
-
-        model.addAttribute("article", articleService.View(id));
-        return "articleForm";
+    public String articleModify(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("article", articleService.view(id));
+        return "articleModify";
     }
 
     /**
@@ -51,20 +50,19 @@ public class ArticleController {
      * articleView
      */
     @PostMapping("/article/modify/{id}")
-    public String articleModify(Model model, @PathVariable("id") Long id, Article article) {
+    public String articleModify(@PathVariable("id") Long id, Article article) {
         // 준영속 상태의 엔티티를 DB에서 객체로 가져와 수정하고 다시 저장하는 방식이므로 권장되는 방식이 아님
-        Article tmpArticle = articleView(id);
-        articleService.modify();
-        // 가능한 dirtyChecking 사용
-        // @Transactional
-        //void updateMember(Member memberParam)
-        //Member findMember = em.find(Member.class, memberParam.getId());
-        //
-        //findMember.setName(memberParam.getName());
+        // 이후 로직 변경이 필요할 것
+        Article tmpArticle = articleService.view(id);
+        tmpArticle.setTitle(article.getTitle());
+        tmpArticle.setContent(article.getContent());
 
-        model.addAttribute("article", articleService.View(id));
-        return "articleView/" + id;
+        articleService.write(tmpArticle);
+
+        return "redirect:/article/list";
     }
+
+
 
     /**
      * 게시글 목록 GET
@@ -73,7 +71,7 @@ public class ArticleController {
     @GetMapping("/article/list")
     public String articleList(Model model) {
 
-        model.addAttribute("articles", articleService.List());
+        model.addAttribute("articles", articleService.list());
         return "articleList";
     }
 
@@ -84,7 +82,7 @@ public class ArticleController {
     @GetMapping("/article/view/{id}") // domain.com/article/view?id=1
     public String articleView(Model model, @PathVariable("id") Long id) {
 
-        model.addAttribute("article", articleService.View(id));
+        model.addAttribute("article", articleService.view(id));
         return "articleView";
     }
 
@@ -95,7 +93,7 @@ public class ArticleController {
     @GetMapping("/article/delete/{id}") // domain.com/article/view?id=1
     public String articleDelete(@PathVariable("id") Long id) {
 
-        articleService.Delete(id);
+        articleService.delete(id);
         return  "redirect:/article/list";
     }
 
