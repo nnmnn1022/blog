@@ -26,7 +26,11 @@
 <body>
 <div class="layout">
     <form name="article" th:action="@{/article/modify/{id}(id=${article.id})}" method="post">
-
+        <p>
+            <select name="categoryId">
+                <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            </select>
+        </p>
         <label for="title">제목</label>
         <input type="text" id="title" name="title" th:value="${article.title}">
 

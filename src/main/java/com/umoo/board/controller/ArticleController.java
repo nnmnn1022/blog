@@ -1,7 +1,9 @@
 package com.umoo.board.controller;
 
 import com.umoo.board.entity.Article;
+import com.umoo.board.entity.Category;
 import com.umoo.board.service.ArticleService;
+import com.umoo.board.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,18 +12,24 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private CategoryService categoryService;
 
     /**
      * 게시글 작성 폼 GET
      * articleForm 페이지
      */
     @GetMapping("/article/write") //domain.com/board/write
-    public String articleWrite() {
+    public String articleWrite(Model model) {
+        List<Category> categories = categoryService.list();
+        model.addAttribute("categories", categories);
         return "articleForm";
     }
 
@@ -30,7 +38,7 @@ public class ArticleController {
      * articleList 페이지
      */
     @PostMapping("/article/write")
-    public String articleWrite(Article article) {
+    public String articleWrite(Model model, Article article) {
         articleService.write(article);
         return  "redirect:/article/list";
     }
