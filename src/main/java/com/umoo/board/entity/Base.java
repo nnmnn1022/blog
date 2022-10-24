@@ -1,9 +1,8 @@
 package com.umoo.board.entity;
 
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedBy;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,13 +14,13 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(value = {AuditingEntityListener.class})
-public class BaseEntity {
+public abstract class Base {
 
-    @CreatedDate
+    @CreatedDate // 엔터티 생성 시 시간 자동 저장
     @Column(updatable = false)
     private LocalDateTime regDate;
 
-    @LastModifiedDate
+    @LastModifiedDate // 엔티티 값 수정 시 시간 자동 저장
     private LocalDateTime modDate;
 
     /**
