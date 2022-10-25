@@ -32,6 +32,11 @@
         </tbody>
     </table>
     <a th:href="@{/article/write}">글 쓰기</a>
+    <br>
+    <th:block th:each="page: ${#numbers.sequence(startPage, endPage)}">
+        <a th:if="${page != curPage}" th:href="@{/article/list(page = ${page -1})}" th:text="${page}"></a>
+        <strong th:if="${page == curPage}" th:text="${page}" style="color : red"></strong>
+    </th:block>
 </div>
 
 </body>

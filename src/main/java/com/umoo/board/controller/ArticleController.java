@@ -5,6 +5,10 @@ import com.umoo.board.entity.Category;
 import com.umoo.board.service.ArticleService;
 import com.umoo.board.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -34,7 +39,7 @@ public class ArticleController {
         // 폼데이터 가져오기
         List<Category> categories = categoryService.list();
         model.addAttribute("categories", categories);
-        return "articleForm";
+        return "article/articleForm";
     }
 
     /**
@@ -56,7 +61,7 @@ public class ArticleController {
     @GetMapping("/article/modify/{id}")
     public String articleModify(Model model, @PathVariable("id") Long id) {
         model.addAttribute("article", articleService.view(id));
-        return "articleModify";
+        return "article/articleModify";
     }
 
     /**
@@ -80,12 +85,37 @@ public class ArticleController {
     /**
      * 게시글 목록 GET
      * articleList 페이지
+     * org.springframgework.data.domain.Pageable 을 사용한 페이징
      */
     @GetMapping("/article/list")
-    public String articleList(Model model) {
+    public String articleList(Model model,
+                              @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                              String searchKeyword) {
 
-        model.addAttribute("articles", articleService.list());
-        return "articleList";
+        Page<Article> list = null;
+
+        /*
+        searchKeyword 변수의 유무를 확인하여 전체 페이지 / 검색 결과 페이지 반환
+         */
+        if (searchKeyword == null){
+            list = articleService.list(pageable);
+        }else {
+            list = articleService.articleSearchList(searchKeyword, pageable);
+        }
+
+        /*
+        페이징 처리
+         */
+        int curPage = list.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(1, curPage - 4);
+        int endPage = Math.min(curPage + 5, list.getTotalPages());
+
+        model.addAttribute("articles", list);
+        model.addAttribute("curPage", curPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "article/articleList";
     }
 
     /**
@@ -94,9 +124,10 @@ public class ArticleController {
      */
     @GetMapping("/article/view/{id}") // domain.com/article/view?id=1
     public String articleView(Model model, @PathVariable("id") Long id) {
-        System.out.println("files = " + articleService.view(id).getFiles());
+//        System.out.println("files = " + articleService.view(id).getFiles().get(0).getFileName());
+//        System.out.println("files = " + articleService.view(id).getFiles().get(0).getFilePath());
         model.addAttribute("article", articleService.view(id));
-        return "articleView";
+        return "article/articleView";
     }
 
     /**
