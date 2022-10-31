@@ -51,6 +51,7 @@ public class ArticleController {
     public String articleWrite(Article article, MultipartFile file) throws Exception{
 
         articleService.write(article, file);
+
         return  "redirect:/article/list";
     }
 

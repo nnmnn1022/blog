@@ -27,7 +27,7 @@ public class ArticleService {
         Article savedArticle = articleRepository.save(article);
 
         // 파일이 있을 때만 작업하기
-        if (!file.getOriginalFilename().isEmpty()){
+        if (file != null){
             // 파일이 저장 될 path 지정
             String path = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
