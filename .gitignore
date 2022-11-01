@@ -4,9 +4,10 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+src/main/resources/*-*.properties
 
 ### files ###
-!**/src/resources/static/files/
+src/main/resources/static/files/
 
 ### STS ###
 .apt_generated
