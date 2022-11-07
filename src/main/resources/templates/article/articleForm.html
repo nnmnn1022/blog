@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>게시글 작성</title>
 </head>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
 <style>
     .layout {
         width : 500px;
@@ -22,6 +27,14 @@
         min-height : 300px;
     }
 
+    .ck.ck-editor{
+        max-width: 500px;
+    }
+
+    .ck.ck-editor__editable{
+        min-height:300px;
+    }
+
 </style>
 <body>
 <div class="layout">
@@ -33,10 +46,20 @@
         </select>
         </p>
         <label for="title">제목</label>
-        <input type="text" id="title" name="title" placeholder="제목">
+        <input type="text" id="title" name="title" placeholder="제목"><br/>
 
-        <label for="content">내용</label>
-        <textarea name="content" id="content" placeholder="내용을 입력하세요"></textarea>
+        <label for="editor">내용</label>
+<!--        <textarea name="content" id="content" placeholder="내용을 입력하세요"></textarea>-->
+        <div id="editor">
+            <p>This is some sample content.</p>
+        </div>
+        <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+        </script>
 
         <input  type="file" value="파일 선택" name="file">
         <input type="submit" value="작성">
