@@ -36,18 +36,13 @@
 </style>
 <body>
 <div class="layout">
-    <table>
-        <thead>
-            <tr>
-                <th th:text="${article.title}"></th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${article.content}"></td>
-        </tr>
-        </tbody>
-    </table>
+        <h1 style="background-color: #efefef;" th:text="${article.title}"></h1>
+
+        <div class="ckeditor_contents">
+            <p class="card-text" th:utext="${article.content}"></p>
+        </div>
+
+
     <p th:each="file, stat: ${article.files}"><a th:href="@{${file.filePath}}" th:text="|다운로드 ${stat.count}|"></a></p>
     <a th:href="@{/article/modify/{id}(id = ${article.id})}">수정</a>
     <a href="#" th:onclick="|javascript:deleteArticle()|">삭제</a>

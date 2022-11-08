@@ -42,4 +42,8 @@ class ArticleServiceTest {
     @Test
     void delete() {
     }
+
+    @Test
+    void uploadImage() {
+    }
 }

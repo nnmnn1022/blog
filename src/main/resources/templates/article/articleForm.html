@@ -11,7 +11,7 @@
 
 <style>
     .layout {
-        width : 500px;
+        width : 1000px;
         margin : 0 auto;
         margin-top : 40px;
     }
@@ -28,11 +28,11 @@
     }
 
     .ck.ck-editor{
-        max-width: 500px;
+        max-width: 1000px;
     }
 
     .ck.ck-editor__editable{
-        min-height:300px;
+        min-height:500px;
     }
 
 </style>
@@ -50,21 +50,25 @@
 
         <label for="editor">내용</label>
 <!--        <textarea name="content" id="content" placeholder="내용을 입력하세요"></textarea>-->
-        <div id="editor">
-            <p>This is some sample content.</p>
-        </div>
-        <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .catch( error => {
-                console.error( error );
-            } );
-        </script>
+        <textarea name="content" id="editor">
+
+        </textarea>
 
         <input  type="file" value="파일 선택" name="file">
         <input type="submit" value="작성">
 
     </form>
+
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ))
+            .then(editor => {
+                console.log('CKEditor 적용 완료');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 </div>
 </body>
 </html>

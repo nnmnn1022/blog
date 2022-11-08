@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.util.List;
@@ -142,5 +144,12 @@ public class ArticleController {
         return  "redirect:/article/list";
     }
 
+    /**
+     * 이미지 업데이트 Post
+     */
+    @PostMapping(value = "/image/upload")
+    public ModelAndView uploadImage(MultipartHttpServletRequest request) throws Exception {
+        return articleService.uploadImage(request);
+    }
 
 }
