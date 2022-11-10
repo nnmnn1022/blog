@@ -4,6 +4,7 @@ import com.umoo.board.entity.Article;
 import com.umoo.board.repository.ArticleRepository;
 import com.umoo.board.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,12 @@ import java.util.UUID;
 
 @Service
 public class ArticleService {
+
+    @Value("${custom.path.upload-path}")
+    private String uploadPath;
+
+    @Value("${custom.path.upload-images}")
+    private String contextPath;
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -48,7 +55,7 @@ public class ArticleService {
             // file 엔티티에 정보 저장 후 연관 관계를 통해 데이터 Join
             com.umoo.board.entity.File fileEntity = new com.umoo.board.entity.File();
             fileEntity.setFileName(fileName);
-            fileEntity.setFilePath("/static/files/" + fileName);
+            fileEntity.setFilePath(uploadPath + fileName);
             fileEntity.setArticle(savedArticle);
 
             fileRepository.save(fileEntity);
@@ -72,10 +79,11 @@ public class ArticleService {
         return articleRepository.findByTitleContaining(searchKeyword, pageable);
     }
 
-    public ModelAndView uploadImage(MultipartHttpServletRequest request){
+    public ModelAndView uploadImage(MultipartHttpServletRequest request) throws Exception{
 
         ModelAndView mav = new ModelAndView("jsonView");
         MultipartFile uploadedFile = request.getFile("upload");
+        String path = uploadPath.replace("/", "\\");
         String originFileName = uploadedFile.getOriginalFilename();
 
         // split은 String[]의 하위클래스 이기 때문에 불필요한 60개의 배열을 생성한다는 답변이 있음
@@ -84,9 +92,15 @@ public class ArticleService {
 
         String newFileName = fileName + "_" + UUID.randomUUID() + ext;
 
-        String realPath = request.getServletContext().getRealPath("/");
-        String savePath = realPath + "upload/" + newFileName;
-        String uploadPath = "./upload/" + newFileName;
+//        String realPath = request.getServletContext().getRealPath("/");
+//        String savePath = realPath + "upload/" + newFileName;
+//        String uploadPath = "./upload/" + newFileName;
+
+        File file = new File(path, newFileName);
+        uploadedFile.transferTo(file);
+
+        mav.addObject("uploaded", true);
+        mav.addObject("url", contextPath.replace("**", newFileName));
 
         return mav;
     }
