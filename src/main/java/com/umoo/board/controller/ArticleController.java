@@ -63,6 +63,8 @@ public class ArticleController {
      */
     @GetMapping("/article/modify/{id}")
     public String articleModify(Model model, @PathVariable("id") Long id) {
+        List<Category> categories = categoryService.list();
+        model.addAttribute("categories", categories);
         model.addAttribute("article", articleService.view(id));
         return "article/articleModify";
     }

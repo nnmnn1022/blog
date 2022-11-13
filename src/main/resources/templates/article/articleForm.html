@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <title>게시글 작성</title>
 </head>
-<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+<script src="/static/js/ckeditor.js"></script>
+
 
 <style>
     .layout {
@@ -59,19 +57,8 @@
 
     </form>
 
-    <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ), {
-                ckfinder: {
-			        uploadUrl : '/image/upload'
-			        }
-             })
-            .then(editor => {
-                console.log('CKEditor 적용 완료');
-            })
-            .catch(error => {
-                console.error(error);
-            });
+    <script type="text/javascript" src="/static/js/cls_ckeditor.js">
+        classicEditor();
     </script>
 </div>
 </body>

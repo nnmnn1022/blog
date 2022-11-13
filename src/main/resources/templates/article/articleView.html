@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>게시글 상세 페이지</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         function deleteArticle() {
@@ -17,7 +20,7 @@
 </head>
 <style>
     .layout {
-        width : 500px;
+        width : 1000px;
         margin : 0 auto;
         margin-top : 40px;
     }
@@ -44,8 +47,10 @@
 
 
     <p th:each="file, stat: ${article.files}"><a th:href="@{${file.filePath}}" th:text="|다운로드 ${stat.count}|"></a></p>
-    <a th:href="@{/article/modify/{id}(id = ${article.id})}">수정</a>
-    <a href="#" th:onclick="|javascript:deleteArticle()|">삭제</a>
+    <a class="layout" th:href="@{/article/modify/{id}(id = ${article.id})}">수정</a>
+    <a class="layout" href="#" th:onclick="|javascript:deleteArticle()|">삭제</a>
+
+    <a class="layout" th:href="@{/article/list}">목록으로</a>
     <!-- <a th:href="@{/article/delete/{id}(id = ${article.id})}">삭제</a> -->
 </div>
 </body>
