@@ -79,30 +79,5 @@ public class ArticleService {
         return articleRepository.findByTitleContaining(searchKeyword, pageable);
     }
 
-    public ModelAndView uploadImage(MultipartHttpServletRequest request) throws Exception{
-
-        ModelAndView mav = new ModelAndView("jsonView");
-        MultipartFile uploadedFile = request.getFile("upload");
-        String path = uploadPath.replace("/", "\\");
-        String originFileName = uploadedFile.getOriginalFilename();
-
-        // split은 String[]의 하위클래스 이기 때문에 불필요한 60개의 배열을 생성한다는 답변이 있음
-        String fileName = originFileName.substring(0, originFileName.indexOf("."));
-        String ext = originFileName.substring(originFileName.indexOf("."));
-
-        String newFileName = fileName + "_" + UUID.randomUUID() + ext;
-
-//        String realPath = request.getServletContext().getRealPath("/");
-//        String savePath = realPath + "upload/" + newFileName;
-//        String uploadPath = "./upload/" + newFileName;
-
-        File file = new File(path, newFileName);
-        uploadedFile.transferTo(file);
-
-        mav.addObject("uploaded", true);
-        mav.addObject("url", contextPath.replace("**", newFileName));
-
-        return mav;
-    }
 
 }

@@ -146,12 +146,4 @@ public class ArticleController {
         return  "redirect:/article/list";
     }
 
-    /**
-     * 이미지 업데이트 Post
-     */
-    @PostMapping(value = "/image/upload")
-    public ModelAndView uploadImage(MultipartHttpServletRequest request) throws Exception {
-        return articleService.uploadImage(request);
-    }
-
 }
