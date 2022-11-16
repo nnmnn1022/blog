@@ -6,6 +6,9 @@
 </head>
 <script src="/static/js/ckeditor.js"></script>
 <script src="/static/js/cls_ckeditor.js"></script>
+<script type="text/javascript">
+
+</script>
 
 <style>
     .layout {
@@ -43,18 +46,39 @@
             </select>
         </p>
         <label for="title">제목</label>
-        <input type="text" id="title" name="title" th:value="${article.title}"><br/>
+        <input required="true" type="text" id="title" name="title" th:value="${article.title}"><br/>
 
         <label for="editor">내용</label>
-        <textarea name="content" id="editor" th:text="${article.content}">
-
-        </textarea>
-
-        <input type="submit" value="수정">
+        <textarea name="content" id="editor" th:text="${article.content}"></textarea>
 
     </form>
+    <a id="submit" class="layout" href="#" th:onclick="|javascript:checkSubmit()|">수정</a>
+
     <script type="text/javascript">
-        classicEditor();
+        let newEditor;
+        ClassicEditor
+                .create( document.querySelector( '#editor' ), {
+                    extraPlugins:[MyCustomUploadAdapterPlugin],
+                 })
+                .then(editor => {
+                   newEditor = editor
+                   console.log('CKEditor 적용 완료');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        function checkSubmit() {
+            const title = document.querySelector('#title').value;
+            const content = newEditor.getData();
+            if (!title || title.replace(" ", "") == ""){
+                alert("제목을 입력하세요");
+            } else if (!content || content.replace(" ", "") == ""){
+                alert("내용을 입력하세요");
+            } else {
+                document.querySelector('#article').submit();
+            }
+        }
     </script>
 </div>
 </body>

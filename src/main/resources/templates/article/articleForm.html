@@ -37,27 +37,47 @@
 <body>
 <div class="layout">
 <!--    파일을 추가하기 위해서는 enctype="multipart/form-data" 부분을 적어줘야함-->
-    <form name="article" action="/article/write" method="post" enctype="multipart/form-data">
+    <form name="article" id="article" action="/article/write" method="post" enctype="multipart/form-data">
         <p>
         <select name="categoryId">
             <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
         </select>
         </p>
         <label for="title">제목</label>
-        <input type="text" id="title" name="title" placeholder="제목"><br/>
+        <input required="true" type="text" id="title" name="title" placeholder="제목"><br/>
 
         <label for="editor">내용</label>
-        <textarea name="content" id="editor">
+        <textarea name="content" id="editor"></textarea>
 
-        </textarea>
-
-        <input  type="file" value="파일 선택" name="file">
-        <input type="submit" value="작성">
-
+        <input type="file" value="파일 선택" name="file">
     </form>
+    <a id="submit" class="layout" href="#" th:onclick="|javascript:checkSubmit()|">작성</a>
 
     <script type="text/javascript">
-        classicEditor();
+        let newEditor;
+        ClassicEditor
+                .create( document.querySelector( '#editor' ), {
+                    extraPlugins:[MyCustomUploadAdapterPlugin],
+                 })
+                .then(editor => {
+                   newEditor = editor
+                   console.log('CKEditor 적용 완료');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        function checkSubmit() {
+            const title = document.querySelector('#title').value;
+            const content = newEditor.getData();
+            if (!title || title.replace(" ", "") == ""){
+                alert("제목을 입력하세요");
+            } else if (!content || content.replace(" ", "") == ""){
+                alert("내용을 입력하세요");
+            } else {
+                document.querySelector('#article').submit();
+            }
+        }
     </script>
 </div>
 </body>

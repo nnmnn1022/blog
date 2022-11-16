@@ -8,19 +8,6 @@ function MyCustomUploadAdapterPlugin(editor){
 
 }
 
-function classicEditor(){
-    ClassicEditor
-                .create( document.querySelector( '#editor' ), {
-                    extraPlugins:[MyCustomUploadAdapterPlugin],
-                 })
-                .then(editor => {
-                   console.log('CKEditor 적용 완료');
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-}
-
 /*
     참고: https://m.blog.naver.com/jioness/221318925814
     https://simsimjae.tistory.com/340
