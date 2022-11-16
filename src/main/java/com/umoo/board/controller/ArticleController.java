@@ -2,8 +2,10 @@ package com.umoo.board.controller;
 
 import com.umoo.board.entity.Article;
 import com.umoo.board.entity.Category;
+import com.umoo.board.entity.File;
 import com.umoo.board.service.ArticleService;
 import com.umoo.board.service.CategoryService;
+import com.umoo.board.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,6 +33,9 @@ public class ArticleController {
     private ArticleService articleService;
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private FileService fileService;
 
     /**
      * 게시글 작성 폼 GET
@@ -64,6 +69,7 @@ public class ArticleController {
     @GetMapping("/article/modify/{id}")
     public String articleModify(Model model, @PathVariable("id") Long id) {
         List<Category> categories = categoryService.list();
+        Collection<File> file = fileService.view(id);
         model.addAttribute("categories", categories);
         model.addAttribute("article", articleService.view(id));
         return "article/articleModify";

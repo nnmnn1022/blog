@@ -11,10 +11,16 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${custom.path.upload-images}")
-    private String connectPath;
+    private String imgPath;
+
+    @Value("${custom.path.images}")
+    private String realImgPath;
+
+    @Value("${custom.path.upload-files}")
+    private String filePath;
 
     @Value("${custom.path.files}")
-    private String resourcePath;
+    private String realFilePath;
 
 
     /**
@@ -28,8 +34,10 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler(connectPath)
-                .addResourceLocations("file:///" + resourcePath);
+        registry.addResourceHandler(imgPath)
+                .addResourceLocations("file:///" + realImgPath);
+        registry.addResourceHandler(filePath)
+                .addResourceLocations("file:///" + realFilePath);
     }
 
     /**

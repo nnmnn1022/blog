@@ -51,6 +51,7 @@
         <label for="editor">내용</label>
         <textarea name="content" id="editor" th:text="${article.content}"></textarea>
 
+        <input type="file" value="파일 선택" name="file" th:value="${article.}">
     </form>
     <a id="submit" class="layout" href="#" th:onclick="|javascript:checkSubmit()|">수정</a>
 

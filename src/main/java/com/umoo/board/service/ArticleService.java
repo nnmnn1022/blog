@@ -19,11 +19,17 @@ import java.util.UUID;
 @Service
 public class ArticleService {
 
-    @Value("${custom.path.upload-path}")
-    private String uploadPath;
-
     @Value("${custom.path.upload-images}")
-    private String contextPath;
+    private String contextImgPath;
+
+    @Value("${custom.path.images}")
+    private String realImgPath;
+
+    @Value("${custom.path.upload-files}")
+    private String contextFilePath;
+
+    @Value("${custom.path.files}")
+    private String realFilePath;
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -38,7 +44,7 @@ public class ArticleService {
         // 파일이 있을 때만 작업하기
         if (file != null && !file.getOriginalFilename().isEmpty()){
             // 파일이 저장 될 path 지정
-            String path = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+            String path = realFilePath;
 
             // 랜덤 uuid를 생성해 원래 파일명에 추가해서 반환
             UUID uuid = UUID.randomUUID();
@@ -47,7 +53,7 @@ public class ArticleService {
             String fileName = originFileName.substring(0, originFileName.indexOf("."));
             String ext = originFileName.substring(originFileName.indexOf("."));
 
-            String newFileName = fileName + "_" + uuid + fileName;
+            String newFileName = fileName + "_" + uuid + ext;
 
             File savedFile = new File(path, newFileName);
             file.transferTo(savedFile);
@@ -55,7 +61,7 @@ public class ArticleService {
             // file 엔티티에 정보 저장 후 연관 관계를 통해 데이터 Join
             com.umoo.board.entity.File fileEntity = new com.umoo.board.entity.File();
             fileEntity.setFileName(fileName);
-            fileEntity.setFilePath(uploadPath + fileName);
+            fileEntity.setFilePath(path + fileName);
             fileEntity.setArticle(savedArticle);
 
             fileRepository.save(fileEntity);
