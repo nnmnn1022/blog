@@ -16,6 +16,7 @@ function file_upload(p){
         data: formData,
         type: 'POST',
         onprogress: function(e){
+            console.log(formData)
             p.fn_progress && p.fn_progress(e);
         },
         success: function(e){

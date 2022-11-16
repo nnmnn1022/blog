@@ -4,6 +4,7 @@ import com.umoo.board.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    @Value("${custom.path.upload-path}")
+    @Value("${custom.path.files}")
     private String uploadPath;
 
     @Value("${custom.path.upload-images}")
@@ -27,7 +28,7 @@ public class FileService {
         String path = uploadPath.replace("/", "\\");
         String originFileName = uploadedFile.getOriginalFilename();
 
-        // split은 String[]의 하위클래스 이기 때문에 불필요한 60개의 배열을 생성한다는 답변이 있음
+        // split은 String[]의 하위클래스 이기 때문에 불필요한 60개의 배열을 생성함
         String fileName = originFileName.substring(0, originFileName.indexOf("."));
         String ext = originFileName.substring(originFileName.indexOf("."));
 
@@ -45,4 +46,24 @@ public class FileService {
 
         return mav;
     }
+
+//    public void uploadImage(MultipartHttpServletRequest request) throws Exception{
+//        // 파일이 저장 될 path 지정
+//        String path = contextPath.replace("**","");
+//        MultipartFile uploadedFile = request.getFile("upload");
+//
+//        // 랜덤 uuid를 생성해 원래 파일명에 추가해서 반환
+//        UUID uuid = UUID.randomUUID();
+//        String originFileName =  uploadedFile.getOriginalFilename();
+//
+//        String fileName = originFileName.substring(0, originFileName.indexOf("."));
+//        String ext = originFileName.substring(originFileName.indexOf("."));
+//
+//        String newFileName = fileName + "_" + uuid + fileName;
+//
+//        File savedFile = new File(path, newFileName);
+//        uploadedFile.transferTo(savedFile);
+//
+//
+//    }
 }

@@ -1,23 +1,20 @@
-document.write('<script src="/static/js/cls_ajax.js"></script>');
+//document.write('<script src="/static/js/cls_ajax.js"></script>');
 "use strict";
 
+function MyCustomUploadAdapterPlugin(editor){
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+    return new MyUploadAdapter(loader);
+    };
+
+}
+
 function classicEditor(){
-    console.log("맨위");
     ClassicEditor
                 .create( document.querySelector( '#editor' ), {
-
+                    extraPlugins:[MyCustomUploadAdapterPlugin],
                  })
                 .then(editor => {
-                    console.log("진행중");
-                    editoro = editor;
-                    editor.plugins.get("FileRepository").createUploadAdapter = function (loader) {
-                        return new CustomUploadAdapter(loader, "/images/board/press", function(result){
-                            var fileSeq = isEmpty(result[0]) ? "noImage" : result[0];
-                            var imageUrl = window.location.protocol + "//" + window.location.host + "/image/" + fileSeq;
-                            return {"default": imageUrl};
-                        });
-                    };
-                    console.log('CKEditor 적용 완료');
+                   console.log('CKEditor 적용 완료');
                 })
                 .catch(error => {
                     console.error(error);
@@ -26,31 +23,69 @@ function classicEditor(){
 
 /*
     참고: https://m.blog.naver.com/jioness/221318925814
+    https://simsimjae.tistory.com/340
 */
-var CustomUploadAdapter = function(loader, path, fn_resolve) {
-    this.constructor = function (loader) {
+
+class MyUploadAdapter{
+    constructor(loader){
         this.loader = loader;
-        this.path = path;
-        this.fn_resolve = fn_resolve;
-    };
-    this.upload = function() {
-        return new Promise(function (resolve, reject) {
-            this.xhr = file_upload({
-                loader: loader,
-                resolve: resolve,
-                reject: reject,
-                files: [loader.file],
-                path: path,
-                fn_resolve: function(e) {
-                    e.lengthComputable && (loader.uploadTotal = e.total, loader.uploaded = e.loaded);
-                },
-                fn_resolve: reject
-            });
-
-        });
-    };
-    this.abort = function() {
-        return this.xhr.abort && this.xhr.abort();
     }
-};
 
+    upload(){
+        return this.loader.file
+            .then( file => new Promise((resolve, reject) =>{
+                this._initRequest();
+                this._initListeners(resolve, reject, file);
+                this._sendRequest(file);
+            }));
+    }
+    
+    abort() {
+        if(this.xhr){
+            this.xhr.abort();
+        }
+    }
+
+    _initRequest(){
+        const xhr = this.xhr = new XMLHttpRequest();
+
+        xhr.open('POST', '/image/upload', true);
+        xhr.responseType = 'json';
+    }
+
+    _initListeners(resolve, reject, file){
+        const xhr = this.xhr;
+        const loader = this.loader;
+        const genericErrorText = `Couldn't upload file: ${file.name}`
+        xhr.addEventListener('error', () => reject(genericErrorText));
+        xhr.addEventListener('abort', () => reject());
+        xhr.addEventListener('load', ()=>{
+            const response = xhr.response;
+
+            if (!response || response.error){
+                console.log(response)
+                return reject(response&&response.error ? response.error.message : genericErrorText);
+            }
+
+            resolve({
+                default:response.url
+            });
+        });
+
+        if(xhr.upload){
+            xhr.upload.addEventListener('progress', evt => {
+                if (evt.lengthComputable){
+                    loader.uploadTotal = evt.total;
+                    loader.uploaded = evt.loaded;
+                }
+            });
+        }
+    }
+
+    _sendRequest(file){
+        const data = new FormData();
+        data.append('upload', file);
+
+        this.xhr.send(data);
+    }
+}
