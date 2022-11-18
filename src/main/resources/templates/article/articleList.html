@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>게시글 리스트 페이지</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-</head>
-<style>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
+                layout:decorate="~{./layout/default_layout}">
+
+<th block layout:fragment="css">
+    <style>
     .boardList {
-        width : 500px;
+        width : 1000px;
         margin : 0 auto;
         margin-top : 40px;
     }
@@ -15,10 +15,11 @@
     .under {
         text-align: center;
     }
+    </style>
+</th>
+<th block layout:fragment="script"></th>
 
-</style>
-<body>
-<div>
+<article layout:fragment="content">
     <table class="boardList">
         <thead>
             <tr>
@@ -28,8 +29,8 @@
         </thead>
         <tbody>
         <tr th:each="article: ${articles}">
-            <td th:text="${article.id}"></td>
-            <td >
+            <td style="width:15%" th:text="${article.id}"></td>
+            <td style="width:85%">
                 <a th:text="${article.title}" th:href="@{/article/view/{id}(id = ${article.id})}"></a>
             </td>
         </tr>
@@ -42,7 +43,5 @@
         <strong class="under" th:if="${page == curPage}" th:text="${page}" style="color : red"></strong>
     </th:block>
     </div>
-</div>
-
-</body>
+</article>
 </html>

@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeloaf/layout">
+<head th:replace="layout/fragments/config :: configFragment">
+    <meta charset="UTF-8">
+    <title>Umoo's Blog</title>
+</head>
+<header th:replace="layout/fragments/header :: headerFragment"></header>
+<main>
+<article layout:fragment="content"></article>
+<aside th:replace="layout/fragments/sidebar :: sidebarFragment"></aside>
+</main>
+<footer th:replace="layout/fragments/footer :: footerFragment"></footer>
+<body>
+
+</body>
+</html>

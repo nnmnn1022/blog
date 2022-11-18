@@ -1,40 +1,29 @@
 <!DOCTYPE HTML>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>게시글 작성</title>
-</head>
-<script src="/static/js/ckeditor.js"></script>
-<script src="/static/js/cls_ckeditor.js"></script>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
+      layout:decorate="~{./layout/default_layout}">
 
+<th block layout:fragment="script">
+    <script src="/static/js/ckeditor.js"></script>
+    <script src="/static/js/cls_ckeditor.js"></script>
+</th>
+
+<th block layout:fragment="css">
 <style>
     .layout {
-        width : 1000px;
-        margin : 0 auto;
         margin-top : 40px;
+        margin-left : 20%;
     }
 
     .layout input {
-        width : 100%;
+        width : 60%;
         box-sizing : border-box;
     }
 
-    .layout textarea {
-        width : 100%;
-        margin-top : 10px;
-        min-height : 300px;
-    }
-
-    .ck.ck-editor{
-        max-width: 1000px;
-    }
-
-    .ck.ck-editor__editable{
-        min-height:500px;
-    }
-
 </style>
-<body>
+</th>
+<article layout:fragment="content" >
 <div class="layout">
 <!--    파일을 추가하기 위해서는 enctype="multipart/form-data" 부분을 적어줘야함-->
     <form name="article" id="article" action="/article/write" method="post" enctype="multipart/form-data">
@@ -44,7 +33,7 @@
         </select>
         </p>
         <label for="title">제목</label>
-        <input required="true" type="text" id="title" name="title" placeholder="제목"><br/>
+        <input required="true" type="text" id="title" name="title" placeholder="제목"><br/><br/>
 
         <label for="editor">내용</label>
         <textarea name="content" id="editor"></textarea>
@@ -80,5 +69,5 @@
         }
     </script>
 </div>
-</body>
+</article>
 </html>

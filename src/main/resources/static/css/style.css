@@ -2,6 +2,7 @@ table.boardList {
   border-collapse: collapse;
   text-align: left;
   line-height: 1.5;
+  font-family: Jetbrains Mono;
 }
 table.boardList thead th {
   padding: 10px;
@@ -21,4 +22,9 @@ table.boardList td {
 }
 table.boardList tr:nth-child(2n) {
   background: #efefef;
+}
+
+pre > code {
+    font-family: Jetbrains Mono;
+    font-size: 16px;
 }

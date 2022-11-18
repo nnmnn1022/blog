@@ -1,0 +1,11 @@
+@media (max-width: 40rem){
+    aside {
+        display: none;
+    }
+
+    article {
+       padding 32px;
+       border-radius: 16px 0 0 16px;
+    }
+
+}

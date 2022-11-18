@@ -1,59 +1,50 @@
 <!DOCTYPE HTML>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>게시글 작성</title>
-</head>
-<script src="/static/js/ckeditor.js"></script>
-<script src="/static/js/cls_ckeditor.js"></script>
-<script type="text/javascript">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
+      layout:decorate="~{./layout/default_layout}">
 
-</script>
+<th block layout:fragment="script">
+    <script src="/static/js/ckeditor.js"></script>
+    <script src="/static/js/cls_ckeditor.js"></script>
+</th>
 
-<style>
-    .layout {
-        width : 1000px;
-        margin : 0 auto;
-        margin-top : 40px;
-    }
+<th block layout:fragment="css">
+    <style>
+        .layout {
+            margin-top : 40px;
+            margin-left : 20%;
 
-    .layout input {
-        width : 100%;
-        box-sizing : border-box;
-    }
+        }
 
-    .layout textarea {
-        width : 100%;
-        margin-top : 10px;
-        min-height : 300px;
-    }
+        .layout input {
+            width : 60%;
+            box-sizing : border-box;
+        }
 
-    .ck.ck-editor{
-        max-width: 1000px;
-    }
+    </style>
 
-    .ck.ck-editor__editable{
-        min-height:500px;
-    }
 
-</style>
-<body>
-<div class="layout">
-    <form name="article" th:action="@{/article/modify/{id}(id=${article.id})}" method="post">
-        <p>
-            <select name="categoryId">
-                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-            </select>
-        </p>
-        <label for="title">제목</label>
-        <input required="true" type="text" id="title" name="title" th:value="${article.title}"><br/>
+</th>
+<article layout:fragment="content" >
+    <div class="layout">
+        <form id="article" name="article" th:action="@{/article/modify/{id}(id=${article.id})}" method="post">
+            <p>
+                <select name="categoryId">
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </p>
+            <label for="title">제목</label>
+            <input required="true" type="text" id="title" name="title" th:value="${article.title}"><br/><br/>
 
-        <label for="editor">내용</label>
-        <textarea name="content" id="editor" th:text="${article.content}"></textarea>
+            <label for="editor">내용</label>
+            <textarea name="content" id="editor" th:text="${article.content}"></textarea>
 
-        <input type="file" value="파일 선택" name="file" th:value="${article.}">
-    </form>
-    <a id="submit" class="layout" href="#" th:onclick="|javascript:checkSubmit()|">수정</a>
+    <!--        <input type="file" value="파일 선택" name="file" th:value="${article.}">-->
+        </form>
+        <a id="submit" class="layout" href="#" th:onclick="|javascript:checkSubmit()|">수정</a>
+        <a class="layout" th:href="@{/article/list}">목록으로</a>
+    </div>
 
     <script type="text/javascript">
         let newEditor;
@@ -81,6 +72,5 @@
             }
         }
     </script>
-</div>
-</body>
+</article>
 </html>

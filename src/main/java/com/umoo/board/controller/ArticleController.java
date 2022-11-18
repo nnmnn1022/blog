@@ -41,7 +41,7 @@ public class ArticleController {
      * 게시글 작성 폼 GET
      * articleForm 페이지
      */
-    @GetMapping("/article/write") //domain.com/board/write
+    @GetMapping("/article/write") //blog.umoo.pe.kr/board/write
     public String articleWrite(Model model) {
         // 폼데이터 가져오기
         List<Category> categories = categoryService.list();
@@ -121,6 +121,10 @@ public class ArticleController {
         int startPage = Math.max(1, curPage - 4);
         int endPage = Math.min(curPage + 5, list.getTotalPages());
 
+        // 카테고리 가져오기
+        List<Category> categories = categoryService.list();
+
+        model.addAttribute("categories", categories);
         model.addAttribute("articles", list);
         model.addAttribute("curPage", curPage);
         model.addAttribute("startPage", startPage);
