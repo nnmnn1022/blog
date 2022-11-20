@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -19,15 +20,15 @@ import java.util.UUID;
 @Service
 public class ArticleService {
 
+    // 이미지 경로
     @Value("${custom.path.upload-images}")
     private String contextImgPath;
-
     @Value("${custom.path.images}")
     private String realImgPath;
 
+    // 파일 경로
     @Value("${custom.path.upload-files}")
     private String contextFilePath;
-
     @Value("${custom.path.files}")
     private String realFilePath;
 
@@ -35,6 +36,8 @@ public class ArticleService {
     private ArticleRepository articleRepository;
     @Autowired
     private FileRepository fileRepository;
+    @Autowired
+    private  EntityManager entityManager;
 
     // multipartFile을 사용해서 파일 받기
     public void write(Article article, MultipartFile file) throws Exception{
@@ -68,9 +71,9 @@ public class ArticleService {
         }
     }
 
-    public Page<Article> list(Pageable pageable){
+    public Page<Article> list(Boolean isDel, Pageable pageable){
 
-        return articleRepository.findAll(pageable);
+        return articleRepository.findAllByIsDel(false, pageable);
     }
 
     public Article view(Long id){
@@ -78,8 +81,14 @@ public class ArticleService {
     }
 
     public void delete(Long id){
-        articleRepository.deleteById(id);
+        Article article = view(id);
+        article.setIsDel(true);
+        articleRepository.save(article);
+
+        // 실제 삭제
+        // articleRepository.deleteById(id);
     }
+
 
     public Page<Article> articleSearchList(String searchKeyword, Pageable pageable){
         return articleRepository.findByTitleContaining(searchKeyword, pageable);

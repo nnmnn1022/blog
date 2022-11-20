@@ -26,6 +26,12 @@ public class Article extends Base {
     @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<File> files = new ArrayList<>();
 //    private Integer readCnt;
-//    private Boolean isTop;
-//    private Integer fileId;
+    private Boolean isDel;
+    private Boolean isTop;
+
+    @PrePersist
+    public void prePersist(){
+        this.isDel =  this.isDel == null ? false : this.isDel ;
+        this.isTop =  this.isTop == null ? false : this.isDel ;
+    }
 }

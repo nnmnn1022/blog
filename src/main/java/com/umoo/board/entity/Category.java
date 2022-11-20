@@ -17,4 +17,7 @@ public class Category extends Base {
     private Long parentId;
 
     private String name;
+
+    private Boolean isDel;
+    private Boolean isTop;
 }

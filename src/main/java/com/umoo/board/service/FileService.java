@@ -32,7 +32,6 @@ public class FileService {
 
         ModelAndView mav = new ModelAndView("jsonView");
         MultipartFile uploadedFile = request.getFile("upload");
-        String path = realPath.replace("/", "\\");
         String originFileName = uploadedFile.getOriginalFilename();
 
         // split은 String[]의 하위클래스 이기 때문에 불필요한 60개의 배열을 생성함
@@ -41,7 +40,7 @@ public class FileService {
 
         String newFileName = fileName + "_" + UUID.randomUUID() + ext;
 
-        File file = new File(path, newFileName);
+        File file = new File(realPath, newFileName);
         uploadedFile.transferTo(file);
 
         mav.addObject("uploaded", true);
