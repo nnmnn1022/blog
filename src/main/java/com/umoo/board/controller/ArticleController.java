@@ -3,6 +3,7 @@ package com.umoo.board.controller;
 import com.umoo.board.entity.Article;
 import com.umoo.board.entity.Category;
 import com.umoo.board.entity.File;
+import com.umoo.board.logic.Common;
 import com.umoo.board.service.ArticleService;
 import com.umoo.board.service.CategoryService;
 import com.umoo.board.service.FileService;
@@ -44,8 +45,8 @@ public class ArticleController {
     @GetMapping("/article/write") //blog.umoo.pe.kr/board/write
     public String articleWrite(Model model) {
         // 폼데이터 가져오기
-        List<Category> categories = categoryService.list();
-        model.addAttribute("categories", categories);
+//        List<Category> categories = categoryService.list();
+//        model.addAttribute("categories", categories);
         return "article/articleForm";
     }
 
@@ -68,9 +69,9 @@ public class ArticleController {
      */
     @GetMapping("/article/modify/{id}")
     public String articleModify(Model model, @PathVariable("id") Long id) {
-        List<Category> categories = categoryService.list();
+//        List<Category> categories = categoryService.list();
         Collection<File> file = fileService.view(id);
-        model.addAttribute("categories", categories);
+//        model.addAttribute("categories", categories);
         model.addAttribute("article", articleService.view(id));
         return "article/articleModify";
     }
@@ -83,13 +84,10 @@ public class ArticleController {
     public String articleModify(@PathVariable("id") Long id, Article article, MultipartFile file) throws Exception {
         // 준영속 상태의 엔티티를 DB에서 객체로 가져와 수정하고 다시 저장하는 방식이므로 권장되는 방식이 아님
         // 이후 로직 변경이 필요할 것
-//        Article tmpArticle = articleService.view(id);
-//        tmpArticle.setTitle(article.getTitle());
-//        tmpArticle.setContent(article.getContent());
-
-//        articleService.write(tmpArticle, file);
-
-        articleService.write(article, file);
+        Article tmpArticle = articleService.view(id);
+        tmpArticle.setTitle(article.getTitle());
+        tmpArticle.setContent(article.getContent());
+        articleService.write(tmpArticle, file);
 
         return "redirect:/article/view/" + id;
     }
@@ -124,9 +122,9 @@ public class ArticleController {
         int endPage = Math.min(curPage + 5, list.getTotalPages());
 
         // 카테고리 가져오기
-        List<Category> categories = categoryService.list();
-
-        model.addAttribute("categories", categories);
+//        List<Category> categories = categoryService.list();
+//
+//        model.addAttribute("categories", categories);
         model.addAttribute("articles", list);
         model.addAttribute("curPage", curPage);
         model.addAttribute("startPage", startPage);
@@ -141,9 +139,11 @@ public class ArticleController {
      */
     @GetMapping("/article/view/{id}") // domain.com/article/view?id=1
     public String articleView(Model model, @PathVariable("id") Long id) {
-//        System.out.println("files = " + articleService.view(id).getFiles().get(0).getFileName());
-//        System.out.println("files = " + articleService.view(id).getFiles().get(0).getFilePath());
-        model.addAttribute("article", articleService.view(id));
+        Article article = articleService.view(id);
+        Common com = new Common();
+
+        model.addAttribute("article", article);
+        model.addAttribute("date", com.getDate(article.getRegDate()));
         return "article/articleView";
     }
 
@@ -156,7 +156,5 @@ public class ArticleController {
         articleService.delete(id);
         return  "redirect:/article/list";
     }
-
-
 
 }
