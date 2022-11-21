@@ -14,6 +14,7 @@
 
     .under {
         text-align: center;
+        left: 10%;
     }
     </style>
 </th>
@@ -36,8 +37,8 @@
         </tr>
         </tbody>
     </table><br>
-    <div class="under"><a class="layout" th:href="@{/article/write}">글 쓰기</a></div><br/>
-    <div  class="under">
+    <a class="under btn" th:href="@{/article/write}">글 쓰기</a><br/>
+    <div class="under">
     <th:block th:each="page: ${#numbers.sequence(startPage, endPage)}">
         <a class="under" th:if="${page != curPage}" th:href="@{/article/list(page = ${page -1})}" th:text="${page}"></a>
         <strong class="under" th:if="${page == curPage}" th:text="${page}" style="color : red"></strong>

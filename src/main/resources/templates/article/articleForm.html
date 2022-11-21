@@ -40,7 +40,9 @@
 
         <input type="file" value="파일 선택" name="file">
     </form>
-    <a id="submit" class="layout" href="#" th:onclick="|javascript:checkSubmit()|">작성</a>
+    <br>
+    <a id="submit" class="btn" href="#" th:onclick="|javascript:checkSubmit()|">작성</a>
+    <a class="btn" th:href="@{/article/list}">목록으로</a>
 
     <script type="text/javascript">
         let newEditor;

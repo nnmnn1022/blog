@@ -42,8 +42,9 @@
 
     <!--        <input type="file" value="파일 선택" name="file" th:value="${article.}">-->
         </form>
-        <a id="submit" class="layout" href="#" th:onclick="|javascript:checkSubmit()|">수정</a>
-        <a class="layout" th:href="@{/article/list}">목록으로</a>
+        <br>
+        <a id="submit" class="btn" href="#" th:onclick="|javascript:checkSubmit()|">수정</a>
+        <a class="btn" th:href="@{/article/list}">목록으로</a>
     </div>
 
     <script type="text/javascript">

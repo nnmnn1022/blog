@@ -35,3 +35,30 @@ aside {
     padding: 24px;
     border-radius: 0 16px 16px 0;
 }
+
+
+.btn{
+  width: 100px;
+  height: 30px;
+  padding: 5px;
+  font-size:16px;
+  font-weight: bold;
+  font-family:Jetbrains Mono;
+  color: white;
+  line-height: 30px;
+  text-align: center;
+  background: #CFCFCF;
+  border: solid 2px #CFCFCF;
+  border-radius: 10px;
+  position: relative;
+}
+
+a {
+  text-decoration:none !important;
+  color: black;
+}
+a:visited .btn { color: white; }
+
+.date{
+    text-align: right;
+}
