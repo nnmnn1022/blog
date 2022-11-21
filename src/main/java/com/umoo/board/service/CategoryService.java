@@ -19,8 +19,7 @@ public class CategoryService {
     }
 
     public List<Category> list(){
-
-        return categoryRepository.findAll();
+        return categoryRepository.findAllByIsDel(false);
     }
 
     public Category view(Long id){
