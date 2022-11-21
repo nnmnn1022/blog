@@ -9,13 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.EntityManager;
 import java.io.File;
-import java.util.List;
 import java.util.UUID;
+import com.umoo.board.logic.Common;
 
 @Service
 public class ArticleService {
@@ -37,21 +35,21 @@ public class ArticleService {
     @Autowired
     private FileRepository fileRepository;
     @Autowired
-    private  EntityManager entityManager;
+    private EntityManager entityManager;
 
     // multipartFile을 사용해서 파일 받기
-    public void write(Article article, MultipartFile file) throws Exception{
+    public void write(Article article, MultipartFile file) throws Exception {
 
         Article savedArticle = articleRepository.save(article);
 
         // 파일이 있을 때만 작업하기
-        if (file != null && !file.getOriginalFilename().isEmpty()){
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
             // 파일이 저장 될 path 지정
             String path = realFilePath;
 
             // 랜덤 uuid를 생성해 원래 파일명에 추가해서 반환
             UUID uuid = UUID.randomUUID();
-            String originFileName =  file.getOriginalFilename();
+            String originFileName = file.getOriginalFilename();
 
             String fileName = originFileName.substring(0, originFileName.indexOf("."));
             String ext = originFileName.substring(originFileName.indexOf("."));
@@ -71,16 +69,16 @@ public class ArticleService {
         }
     }
 
-    public Page<Article> list(Boolean isDel, Pageable pageable){
+    public Page<Article> list(Boolean isDel, Pageable pageable) {
 
         return articleRepository.findAllByIsDel(false, pageable);
     }
 
-    public Article view(Long id){
+    public Article view(Long id) {
         return articleRepository.findById(id).get();
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         Article article = view(id);
         article.setIsDel(true);
         articleRepository.save(article);
@@ -90,9 +88,8 @@ public class ArticleService {
     }
 
 
-    public Page<Article> articleSearchList(String searchKeyword, Pageable pageable){
+    public Page<Article> articleSearchList(String searchKeyword, Pageable pageable) {
         return articleRepository.findByTitleContaining(searchKeyword, pageable);
     }
-
-
 }
+
