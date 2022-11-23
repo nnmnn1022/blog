@@ -63,6 +63,7 @@ public class ArticleSpecs {
                             root.get(key.value), ("%" + key.value + "%")
                     ));
                     break;
+                case CATEGORY:
                 case ISDEL:
                 case ISTOP:
                     predicate.add(builder.equal(

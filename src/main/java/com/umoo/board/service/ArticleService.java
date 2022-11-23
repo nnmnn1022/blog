@@ -91,5 +91,9 @@ public class ArticleService {
     public Page<Article> articleSearchList(String searchKeyword, Pageable pageable) {
         return articleRepository.findByTitleContaining(searchKeyword, pageable);
     }
+
+    public Page<Article> ListByCategory(String searchKeyword, Pageable pageable) {
+        return articleRepository.findAll(articleSpecs., pageable);
+    }
 }
 
