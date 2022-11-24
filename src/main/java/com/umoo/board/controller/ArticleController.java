@@ -111,7 +111,7 @@ public class ArticleController {
             list = articleService.list(true, pageable);
         }else {
 //            list = articleService.articleSearchList(searchKeyword, pageable);
-            list = articleService.list
+//            list = articleService.list
         }
 
         /*
@@ -133,25 +133,25 @@ public class ArticleController {
         return "article/articleList";
     }
 
-    @GetMapping("/article/list")
+    /*@GetMapping("/article/list")
     public String articleListByCategory(Model model,
                               @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                               String searchKeyword) {
 
         Page<Article> list = null;
 
-        /*
+        *//*
         searchKeyword 변수의 유무를 확인하여 전체 페이지 / 검색 결과 페이지 반환
-         */
+         *//*
         if (searchKeyword == null){
             list = articleService.list(true, pageable);
         }else {
             list = articleService.articleSearchList(searchKeyword, pageable);
         }
 
-        /*
+        *//*
         페이징 처리
-         */
+         *//*
         int curPage = list.getPageable().getPageNumber() + 1;
         int startPage = Math.max(1, curPage - 4);
         int endPage = Math.min(curPage + 5, list.getTotalPages());
@@ -166,7 +166,7 @@ public class ArticleController {
         model.addAttribute("endPage", endPage);
 
         return "article/articleList";
-    }
+    }*/
 
 
     /**
