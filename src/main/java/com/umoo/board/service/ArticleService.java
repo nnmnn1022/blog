@@ -1,7 +1,7 @@
 package com.umoo.board.service;
 
 import com.umoo.board.entity.Article;
-import com.umoo.board.repository.ArticleRepository;
+import com.umoo.board.repository.article.ArticleRepository;
 import com.umoo.board.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
 import java.io.File;
 import java.util.UUID;
-import com.umoo.board.logic.Common;
 
 @Service
 public class ArticleService {
@@ -34,8 +32,6 @@ public class ArticleService {
     private ArticleRepository articleRepository;
     @Autowired
     private FileRepository fileRepository;
-    @Autowired
-    private EntityManager entityManager;
 
     // multipartFile을 사용해서 파일 받기
     public void write(Article article, MultipartFile file) throws Exception {

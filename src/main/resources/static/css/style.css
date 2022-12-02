@@ -24,6 +24,14 @@ table.boardList tr:nth-child(2n) {
   background: #efefef;
 }
 
+code {
+    font-family: jetbrains mono;
+    background: lightgray;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 6px;
+}
+
 pre > code {
     font-family: Jetbrains Mono;
     font-size: 16px;
