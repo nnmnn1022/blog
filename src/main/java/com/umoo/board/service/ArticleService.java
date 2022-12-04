@@ -1,6 +1,26 @@
 package com.umoo.board.service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.umoo.board.condition.ArticleSearchCondition;
 import com.umoo.board.entity.Article;
+import com.umoo.board.entity.QArticle;
+import com.umoo.board.repository.FileRepository;
+import com.umoo.board.repository.article.ArticleQueryRepository;
+import com.umoo.board.repository.article.ArticleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.AccessType;
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.UUID;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.umoo.board.entity.Article;
+import com.umoo.board.entity.QArticle;
 import com.umoo.board.repository.article.ArticleRepository;
 import com.umoo.board.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +30,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.util.UUID;
 
@@ -32,6 +53,9 @@ public class ArticleService {
     private ArticleRepository articleRepository;
     @Autowired
     private FileRepository fileRepository;
+
+    @Autowired
+    private ArticleQueryRepository articleQueryRepository;
 
     // multipartFile을 사용해서 파일 받기
     public void write(Article article, MultipartFile file) throws Exception {
@@ -88,8 +112,14 @@ public class ArticleService {
         return articleRepository.findByTitleContaining(searchKeyword, pageable);
     }
 
-//    public Page<Article> ListByCategory(String searchKeyword, Pageable pageable) {
-//        return articleRepository.findAll(articleSpecs., pageable);
-//    }
+    /**
+     * input : categoryId
+     * output : categoryId가 input과 동일한 Article 전체
+     */
+    public PageImpl<Article> ListByCategory(Long categoryId, Pageable pageable) {
+        ArticleSearchCondition condition = new ArticleSearchCondition();
+        condition.setCategoryId(categoryId);
+        return articleQueryRepository.searchByWhere(condition, pageable);
+    }
 }
 

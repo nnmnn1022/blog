@@ -3,9 +3,9 @@ package com.umoo.board.logic;
 import org.springframework.data.domain.Sort;
 
 public final class PageRequest {
-    private int page;
-    private int size;
-    private Sort.Direction direction;
+    private int page = 1 ;
+    private int size = 10;
+    private Sort.Direction direction = Sort.Direction.DESC;
 
     public void setPage(int page){
         // page가 0이면 1 처리
@@ -25,6 +25,6 @@ public final class PageRequest {
     }
 
     public org.springframework.data.domain.PageRequest of() {
-        return org.springframework.data.domain.PageRequest.of(page -1, size, direction, "regDate");
+        return org.springframework.data.domain.PageRequest.of(page -1, size, direction, "id");
     }
 }
