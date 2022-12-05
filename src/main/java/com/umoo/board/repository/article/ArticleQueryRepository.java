@@ -26,11 +26,22 @@ public class ArticleQueryRepository {
                         categoryIdEq(condition.getCategoryId()),
                         isDelEq(false)
                 )
+                .orderBy(
+                        qArticle.id.desc()
+                )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        return new PageImpl<>(articleList, pageable, articleList.size());
+        /*total Count 쿼리를 직접 날린다.*/
+        long total = jpaQueryFactory.selectFrom(qArticle)
+                .where(
+                        categoryIdEq(condition.getCategoryId()),
+                        isDelEq(false)
+                )
+                .stream().count();
+
+        return new PageImpl<>(articleList, pageable, total);
     }
 
     /**

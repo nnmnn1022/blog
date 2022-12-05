@@ -66,6 +66,75 @@ public class ArticleController {
     }
 
     /**
+     * 게시글 목록 GET
+     * articleList 페이지
+     * org.springframgework.data.domain.Pageable 을 사용한 페이징
+     */
+//    @GetMapping("/article/list")
+//    public String articleList(Model model,
+//                              @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+//                              String searchKeyword) {
+//
+//        Page<Article> list = null;
+//
+//        /*
+//        searchKeyword 변수의 유무를 확인하여 전체 페이지 / 검색 결과 페이지 반환
+//         */
+//        if (searchKeyword == null){
+//            list = articleService.list(true, pageable);
+//        }else {
+////            list = articleService.articleSearchList(searchKeyword, pageable);
+////            list = articleService.list
+//        }
+//
+//        /*
+//        페이징 처리
+//         */
+//        int curPage = list.getPageable().getPageNumber() + 1;
+//        int startPage = Math.max(1, curPage - 4);
+//        int endPage = Math.min(curPage + 5, list.getTotalPages());
+//
+//        // 카테고리 가져오기
+////        List<Category> categories = categoryService.list();
+////
+////        model.addAttribute("categories", categories);
+//        model.addAttribute("articles", list);
+//        model.addAttribute("curPage", curPage);
+//        model.addAttribute("startPage", startPage);
+//        model.addAttribute("endPage", endPage);
+//
+//        return "article/articleList";
+//
+//    }
+    @GetMapping("/article/list")
+    public String articleListByCategory(Model model,
+                                        PageRequest pageRequest,
+                                        Long categoryId) {
+
+        PageImpl<Article> list = null;
+        Pageable pageable = pageRequest.of();
+
+        list = articleService.ListByCategory(categoryId, pageable);
+
+        /*
+        페이징 처리
+         */
+        int curPage = list.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(1, curPage - 4);
+        int endPage = Math.min(curPage + 5, list.getTotalPages());
+
+        model.addAttribute("articles", list);
+        model.addAttribute("curPage", curPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        if (categoryId != null){
+            model.addAttribute("categoryId", categoryId);
+        }
+
+        return "article/articleList";
+    }
+
+    /**
      * 게시글 수정 폼 GET
      * articleForm 페이지
      */
@@ -92,69 +161,6 @@ public class ArticleController {
         articleService.write(tmpArticle, file);
 
         return "redirect:/article/view/" + id;
-    }
-
-    /**
-     * 게시글 목록 GET
-     * articleList 페이지
-     * org.springframgework.data.domain.Pageable 을 사용한 페이징
-     */
-    @GetMapping("/article/list")
-    public String articleList(Model model,
-                              @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                              String searchKeyword) {
-
-        Page<Article> list = null;
-
-        /*
-        searchKeyword 변수의 유무를 확인하여 전체 페이지 / 검색 결과 페이지 반환
-         */
-        if (searchKeyword == null){
-            list = articleService.list(true, pageable);
-        }else {
-//            list = articleService.articleSearchList(searchKeyword, pageable);
-//            list = articleService.list
-        }
-
-        /*
-        페이징 처리
-         */
-        int curPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(1, curPage - 4);
-        int endPage = Math.min(curPage + 5, list.getTotalPages());
-
-        // 카테고리 가져오기
-//        List<Category> categories = categoryService.list();
-//
-//        model.addAttribute("categories", categories);
-        model.addAttribute("articles", list);
-        model.addAttribute("curPage", curPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-
-        return "article/articleList";
-    }
-
-    @GetMapping("/article/slist/{categoryId}")
-    public String articleListByCategory(Model model,
-                              PageRequest pageRequest,
-                              @PathVariable("categoryId") Long categoryId) {
-        Pageable pageable = pageRequest.of();
-        PageImpl<Article> list = articleService.ListByCategory(categoryId, pageable);
-
-        /*
-        페이징 처리
-         */
-        int curPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(1, curPage - 4);
-        int endPage = Math.min(curPage + 5, list.getTotalPages());
-
-        model.addAttribute("articles", list);
-        model.addAttribute("curPage", curPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-
-        return "article/articleList";
     }
 
 

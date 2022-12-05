@@ -4,7 +4,7 @@
     <nav>
         <h3>카테고리</h3>
         <ul th:each="category: ${categories}">
-            <li><a href="#" th:text="${category.name}"></a></li>
+            <li><a th:href="@{/article/list(categoryId=${category.id})}" th:text="${category.name}"></a></li>
         </ul>
     </nav>
 </aside>
