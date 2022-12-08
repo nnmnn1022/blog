@@ -7,7 +7,7 @@ build/
 src/main/resources/*-*.properties
 
 ### files ###
-src/main/resources/static/files/
+static/files/
 
 ### STS ###
 .apt_generated

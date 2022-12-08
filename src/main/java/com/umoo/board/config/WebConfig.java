@@ -22,6 +22,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${custom.path.files}")
     private String realFilePath;
 
+    @Value("${custom.path.static}")
+    private String staticFolder;
+
 
     /**
      * WebMvcConfigurer interface를 상속받아 addResourceHandlers method를 overriding하고
@@ -38,6 +41,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file://" + realImgPath);
         registry.addResourceHandler(filePath)
                 .addResourceLocations("file://" + realFilePath);
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("file://" + staticFolder);
     }
 
     /**

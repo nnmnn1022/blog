@@ -1,0 +1,30 @@
+@media (max-width: 40rem){
+    aside {
+        display: none;
+    }
+
+    article {
+       padding 32px;
+       border-radius: 16px 0 0 16px;
+    }
+
+    .btn{
+      width: 100px;
+      height: 30px;
+      padding: 5px;
+      font-size:16px;
+      font-weight: bold;
+      font-family:Jetbrains Mono;
+      color: white;
+      line-height: 30px;
+      text-align: center;
+      background: #CFCFCF;
+      border: solid 2px #CFCFCF;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    a { text-decoration:none !important }
+    a:visited .btn { color: white; }
+
+}
