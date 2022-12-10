@@ -40,6 +40,11 @@ public class ArticleController {
     @Autowired
     private FileService fileService;
 
+    @GetMapping("/") //blog.umoo.pe.kr/
+    public String index() {
+        return "redirect:article/list";
+    }
+
     /**
      * 게시글 작성 폼 GET
      * articleForm 페이지
