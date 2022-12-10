@@ -1,4 +1,4 @@
-package com.umoo.board.repository;
+package com.umoo.board.repository.Category;
 
 import com.umoo.board.entity.Article;
 import com.umoo.board.entity.Category;

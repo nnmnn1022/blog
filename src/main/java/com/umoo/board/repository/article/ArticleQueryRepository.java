@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleQueryRepository {
 
-    private final JPAQueryFactory jpaQueryFactory;
+    private JPAQueryFactory jpaQueryFactory;
 
     static final QArticle qArticle = new QArticle("qArticle");
 

@@ -1,7 +1,7 @@
 package com.umoo.board.service;
 
 import com.umoo.board.entity.Category;
-import com.umoo.board.repository.CategoryRepository;
+import com.umoo.board.repository.Category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
