@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <aside th:fragment="sidebarFragment">
     <nav>
-        <h3>카테고리</h3>
+        <h3>카테고리 <a th:href="@{/category/settings}">⚙</a></h3>
         <ul th:each="category: ${categories}">
             <li><a th:href="@{/article/list(categoryId=${category.id})}" th:text="${category.name}"></a></li>
         </ul>

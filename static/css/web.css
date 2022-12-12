@@ -30,7 +30,8 @@ article .ck.ck-editor__editable{
 }
 
 aside {
-    float: left;
+    position: fixed;
+    right: 5%;
     width: 10%;
     padding: 24px;
     border-radius: 0 16px 16px 0;

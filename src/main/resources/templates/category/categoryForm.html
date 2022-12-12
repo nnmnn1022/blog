@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
+      layout:decorate="~{./layout/default_layout}">
+
+<th block layout:fragment="css">
+    <style>
+    .layout {
+        margin-top : 40px;
+        margin-left : 20%;
+    }
+
+    select {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        padding: 0.6em 1.4em 0.5em 0.8em;
+        margin: 30px;
+        width: 30%;
+        height: 40%;
+    }
+
+</style>
+</th>
+<article layout:fragment="content" >
+    <div class="layout">
+        <form action="/article/modify" name="category" id="category" method="post">
+<!--        1. 미 노출 중인 리스트 | 노출 중인 리스트-->
+<!--        위와 같이 두 개 영역으로 나누어 출력-->
+            <div>
+                <select name="categoryId" size="15" multiple>
+                    <option th:each="category: ${categories}" th:if="${category.isView}==false" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </div>
+            <div style="left: 20%"><a href="#" style="">dd</a></div>
+            <div><a href="#">dd</a></div>
+            <div>
+                <select name="categoryId" size="15" multiple>
+                    <option th:each="category: ${categories}" th:if="${category.isView}==true" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </div>
+
+<!--        2. ◀, ▶ 두 개 아이콘을 클릭하여 노출 미 노출을 결정할 수 있고,-->
+<!--        해당 페이지에서 옮겨진 내용을 확인할 수 있도록 출력-->
+<!--        3. 노출 중인 리스트는 자신이 속한 카테고리별로 묶어서 보여줄 것-->
+<!--        e.g. JAVA - SpringBoot - JPA 와 같이 포함관계를 보여줄 수 있도록 노출-->
+<!--        4. 초기화를 누르면 현재 DB 상태대로 초기화-->
+<!--        5. 저장을 누르면 현재 수정한 대로 DB에 수정 사항 반영-->
+<!--        6. 삭제를 누르면 팝업으로 1회 질문 후 확인 선택 시 선택된 카테고리 삭제(isDel=true) 처리-->
+        </form>
+    </div>
+</article>
+</html>

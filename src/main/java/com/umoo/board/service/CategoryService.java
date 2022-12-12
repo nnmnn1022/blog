@@ -1,6 +1,8 @@
 package com.umoo.board.service;
 
+import com.umoo.board.condition.CategorySearchCondition;
 import com.umoo.board.entity.Category;
+import com.umoo.board.repository.Category.CategoryQueryRepository;
 import com.umoo.board.repository.Category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryQueryRepository categoryQueryRepository;
 
     public void write(Category category){
 
@@ -19,6 +23,13 @@ public class CategoryService {
     }
 
     public List<Category> list(){
+        // condition 객체 생성
+        CategorySearchCondition condition = new CategorySearchCondition();
+        condition.setIsView(true);
+        return categoryQueryRepository.searchByWhere(condition);
+    }
+
+    public List<Category> allList(){
         return categoryRepository.findAllByIsDel(false);
     }
 

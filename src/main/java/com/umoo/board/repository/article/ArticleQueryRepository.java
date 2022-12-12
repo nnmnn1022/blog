@@ -6,6 +6,7 @@ import com.umoo.board.condition.ArticleSearchCondition;
 import com.umoo.board.entity.Article;
 import com.umoo.board.entity.QArticle;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleQueryRepository {
 
+    @Autowired
     private JPAQueryFactory jpaQueryFactory;
 
     static final QArticle qArticle = new QArticle("qArticle");

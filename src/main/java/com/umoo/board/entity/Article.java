@@ -16,8 +16,7 @@ public class Article extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "article_id")
-    // GenerationType.IDENTITY 설정 후 DB에 column을 만들 때도 AI(Auto Increment)에 체크 해줘야 함
+    @Column(name = "article_id") // GenerationType.IDENTITY 설정 후 DB에 column을 만들 때도 AI(Auto Increment)에 체크 해줘야 함
     private Long id;
     private Long categoryId;
 //    private Long authorId;
