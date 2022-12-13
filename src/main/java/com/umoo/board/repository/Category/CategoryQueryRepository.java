@@ -30,7 +30,8 @@ public class CategoryQueryRepository {
      *
      */
     public List<Category> searchByWhere(CategorySearchCondition condition){
-        List<Category> categoryList = jpaQueryFactory.selectFrom(category)
+        List<Category> categoryList = jpaQueryFactory.select(category)
+                .from(category)
                 .where(
                         isDelEq(false),
                         isViewEq(condition.getIsView())

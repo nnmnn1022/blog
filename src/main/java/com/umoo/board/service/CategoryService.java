@@ -26,7 +26,15 @@ public class CategoryService {
         // condition 객체 생성
         CategorySearchCondition condition = new CategorySearchCondition();
         condition.setIsView(true);
-        return categoryQueryRepository.searchByWhere(condition);
+        List<Category> list;
+        List<Category> categories = categoryQueryRepository.searchByWhere(condition);
+        categories.forEach(category -> {
+            if (category.getDepth() == 0){
+                Long tmp = category.getId();
+            }
+
+        });
+        return
     }
 
     public List<Category> allList(){
