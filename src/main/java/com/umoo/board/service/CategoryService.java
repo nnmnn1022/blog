@@ -27,10 +27,11 @@ public class CategoryService {
         CategorySearchCondition condition = new CategorySearchCondition();
         condition.setIsView(true);
         List<Category> list;
+        List<Integer> group;
         List<Category> categories = categoryQueryRepository.searchByWhere(condition);
         categories.forEach(category -> {
             if (category.getDepth() == 0){
-                Long tmp = category.getId();
+                Long groupId = category.getId();
             }
 
         });
