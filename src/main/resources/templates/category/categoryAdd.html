@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
+      layout:decorate="~{./layout/default_layout}">
+
+<th block layout:fragment="css">
+    <style>
+    .layout {
+        margin-top : 40px;
+        margin-left : 20%;
+    }
+
+    select {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        padding: 0.6em 1.4em 0.5em 0.8em;
+        margin: 30px;
+        width: 30%;
+        height: 40%;
+    }
+
+</style>
+</th>
+<article layout:fragment="content" >
+    <div class="layout">
+        <form action="/category/add" name="category" id="category" method="post">
+            <input type="text" name="name">
+            <input type="submit" value="전송">
+        </form>
+    </div>
+</article>
+</html>

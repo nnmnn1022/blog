@@ -34,7 +34,8 @@ public class CategoryQueryRepository {
                 .from(category)
                 .where(
                         isDelEq(false),
-                        isViewEq(condition.getIsView())
+                        isViewEq(true)
+
                 )
                 .fetch();
 
@@ -56,4 +57,8 @@ public class CategoryQueryRepository {
     private BooleanExpression isViewEq(boolean isView){
         return category.isView.eq(isView);
     }
+
+//    private BooleanExpression parentIdNull(){
+//        return category.parentId.isNull();
+//    }
 }
