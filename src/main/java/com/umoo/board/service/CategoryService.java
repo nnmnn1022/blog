@@ -19,7 +19,13 @@ public class CategoryService {
     private CategoryQueryRepository categoryQueryRepository;
 
     public void add(Category category){
-
+        if (category.getParentId() == 0){
+            category.setDepth(0);
+        }else {
+            category.setDepth(
+                    view(category.getParentId())
+                            .getDepth() + 1);
+        }
         categoryRepository.save(category);
     }
 
@@ -27,37 +33,45 @@ public class CategoryService {
         // condition 객체 생성
         CategorySearchCondition condition = new CategorySearchCondition();
         condition.setIsView(true);
+        List<ArrayList<Category>> depth = new ArrayList<>();
         List<Category> depth0 = new ArrayList<>();
         List<Category> depth1 = new ArrayList<>();
         List<Category> depth2 = new ArrayList<>();
 
         List<Category> newList = new ArrayList<>();
         List<Category> categories = categoryQueryRepository.searchByWhere(condition);
-//        categories.forEach(category -> {
-//            if (category.getDepth() == 0) depth0.add(category);
-//            if (category.getDepth() == 1) depth1.add(category);
-//            if (category.getDepth() == 2) depth2.add(category);
-//        });
-//
-//        depth0.forEach(category0 -> {
-//            newList.add(category0);
-//            depth1.forEach(category1 -> {
-//                if (category1.getParentId() == category0.getId()) {
-//                    newList.add(category1);
-//                    depth2.forEach(category2 -> {
-//                        if (category2.getParentId() == category1.getId()){
-//                            newList.add(category2);
-//                        }
-//                    });
-//                }
-//
-//            });
-//        });
+
+        categories.forEach(category -> {
+            if (category.getDepth() == 0) depth0.add(category);
+            if (category.getDepth() == 1) depth1.add(category);
+            if (category.getDepth() == 2) depth2.add(category);
+        });
+
+        depth0.forEach(category0 -> {
+            newList.add(category0);
+            depth1.forEach(category1 -> {
+                if (category1.getParentId() == category0.getId()) {
+                    newList.add(category1);
+                    depth2.forEach(category2 -> {
+                        if (category2.getParentId() == category1.getId()){
+                            newList.add(category2);
+                        }
+                    });
+                }
+
+            });
+        });
         return newList;
     }
 
     public List<Category> allList(){
-        return categoryRepository.findAllByIsDel(false);
+        try {
+            return categoryRepository.findAllByIsDel(false);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public Category view(Long id){

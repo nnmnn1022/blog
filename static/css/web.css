@@ -16,7 +16,7 @@ main {
 article {
     float: left;
     width: 85%;
-    padding 32px;
+    padding: 32px;
     border-radius: 16px 0 0 16px;
 
 }
@@ -31,10 +31,16 @@ article .ck.ck-editor__editable{
 
 aside {
     position: fixed;
-    right: 5%;
-    width: 10%;
-    padding: 24px;
+    right: 2%;
+    width: 15%;
+    padding: 10px;
     border-radius: 0 16px 16px 0;
+}
+
+aside ul {
+    position: relative;
+    left: -15%;
+    margin: 5px;
 }
 
 

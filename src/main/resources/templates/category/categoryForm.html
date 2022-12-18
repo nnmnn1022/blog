@@ -4,11 +4,25 @@
       xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
       layout:decorate="~{./layout/default_layout}">
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function deleteCategory() {
+        let selected = document.getElementById("forMod");
+        let id = selected.options[selected.selectedIndex].value;
+        if (confirm("정말 삭제하시겠습니까?")){
+            location.href="/category/delete/"+id;
+        }
+    }
+    /*]]>*/
+</script>
+
 <th block layout:fragment="css">
     <style>
     .layout {
         margin-top : 40px;
-        margin-left : 20%;
+        width: 85%;
+        margin-left: 10%;
+        position: relative;
     }
 
     select {
@@ -21,24 +35,44 @@
         height: 40%;
     }
 
+    .naran {
+        display: inline-block;
+        width: 100%
+    }
+
 </style>
 </th>
 <article layout:fragment="content" >
     <div class="layout">
-        <form action="/article/modify" name="category" id="category" method="post">
+        <form action="/category/add" name="category" id="forAdd" method="post">
+            <select name="parentId">
+                <option value="0">최상위 카테고리</option>
+                <th block th:each="category:${categories}">
+                    <option th:value="${category.id}" th:text="|${'└' * category.depth} ${category.name}|" >
+                </th>
+            </select>
+            <input type="text" name="name">
+            <input type="submit" value="추가">
+        </form>
+
+        <a class="btn" href="#" th:onclick="|javascript:deleteCategory()|">삭제</a>
+
+        <form action="/category/modify" name="category" id="forMod" method="post">
 <!--        1. 미 노출 중인 리스트 | 노출 중인 리스트-->
 <!--        위와 같이 두 개 영역으로 나누어 출력-->
-            <div>
+            <div class="naran">
+            <div style="width:20%">
                 <select name="categoryId" size="15" multiple>
-                    <option th:each="category: ${categories}" th:if="${category.isView}==false" th:value="${category.id}" th:text="${category.name}"></option>
+                    <option th:each="category: ${categories}" th:if="${category.isView}==false" th:value="${category.id}" th:text="|${'└' * category.depth} ${category.name}|"></option>
                 </select>
             </div>
-            <div style="left: 20%"><a href="#" style="">dd</a></div>
-            <div><a href="#">dd</a></div>
-            <div>
+            <div style="width:10%"><a href="#">▶</a></div>
+            <div style="width:10%"><a href="#">◀</a></div>
+            <div style="width:20%">
                 <select name="categoryId" size="15" multiple>
-                    <option th:each="category: ${categories}" th:if="${category.isView}==true" th:value="${category.id}" th:text="${category.name}"></option>
+                    <option th:each="category: ${categories}" th:if="${category.isView}==true" th:value="${category.id}" th:text="|${'└' * category.depth} ${category.name}|"></option>
                 </select>
+            </div>
             </div>
 
 <!--        2. ◀, ▶ 두 개 아이콘을 클릭하여 노출 미 노출을 결정할 수 있고,-->

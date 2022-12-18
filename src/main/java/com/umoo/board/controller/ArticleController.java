@@ -161,6 +161,7 @@ public class ArticleController {
         // 준영속 상태의 엔티티를 DB에서 객체로 가져와 수정하고 다시 저장하는 방식이므로 권장되는 방식이 아님
         // 이후 로직 변경이 필요할 것
         Article tmpArticle = articleService.view(id);
+        tmpArticle.setCategoryId(article.getCategoryId());
         tmpArticle.setTitle(article.getTitle());
         tmpArticle.setContent(article.getContent());
         articleService.write(tmpArticle, file);

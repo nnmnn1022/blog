@@ -17,21 +17,21 @@ public class CategoryDTO {
 
     private Long id;
     private String name;
+    private Long parentId;
     private Boolean isDel;
     private Boolean isTop;
     private Boolean isView;
     private Integer depth;
-    private List<CategoryDTO> children;
 
     public static CategoryDTO of(Category category){
         return new CategoryDTO(
                 category.getId(),
                 category.getName(),
+                category.getParentId(),
                 category.getIsDel(),
                 category.getIsTop(),
                 category.getIsView(),
-                category.getDepth(),
-                category.getChildren().stream().map(CategoryDTO::of).collect(Collectors.toList())
+                category.getDepth()
         );
     }
 }

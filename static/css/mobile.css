@@ -3,8 +3,12 @@
         display: none;
     }
 
+    aside ul {
+      margin: 5px;
+  }
+
     article {
-       padding 32px;
+       padding: 32px;
        border-radius: 16px 0 0 16px;
     }
 

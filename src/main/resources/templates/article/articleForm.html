@@ -13,7 +13,7 @@
 <style>
     .layout {
         margin-top : 40px;
-        margin-left : 20%;
+        margin-left : 5%;
     }
 
     .layout input {
@@ -29,7 +29,7 @@
     <form name="article" id="article" action="/article/write" method="post" enctype="multipart/form-data">
         <p>
         <select name="categoryId">
-            <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            <option th:each="category: ${categories}" th:value="${category.id}" th:text="|${'└' * category.depth} ${category.name}|"></option>
         </select>
         </p>
         <label for="title">제목</label>

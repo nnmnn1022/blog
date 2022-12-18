@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CategoryController {
@@ -36,34 +37,19 @@ public class CategoryController {
      * 카테고리 조회
      */
     @GetMapping("/category/settings") //blog.umoo.pe.kr/
-    public String categorySetting(Model model) {
-        List<Category> list = categoryService.allList();
-        model.addAttribute("categories", list);
+    public String categorySetting() {
 
-        return "category/categoryAdd";
-    }
-
-    @GetMapping("/categor/settings/json")
-    @ResponseBody
-    List<Category> settingJson() {
-        return categoryService.list();
+        return "category/categoryForm";
     }
 
     /**
      * 카테고리 추가
      */
-    @GetMapping("/category/add")
-    public String categoryAdd(Model model) {
-        List<Category> list = categoryService.allList();
-        model.addAttribute("categories", list);
-
-        return "category/categoryForm";
-    }
     @PostMapping("/category/add")
     public String categoryAdd(Category category) {
         categoryService.add(category);
 
-        return "category/categoryForm";
+        return "redirect:/category/settings";
     }
 
     /**
