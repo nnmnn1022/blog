@@ -31,7 +31,7 @@
         <form id="article" name="article" th:action="@{/article/modify/{id}(id=${article.id})}" method="post">
             <p>
                 <select name="categoryId">
-                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="|${'└' * category.depth} ${category.name}|"></option>
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="|${'＞' * category.depth} ${category.name}|"></option>
                 </select>
             </p>
             <label for="title">제목</label>

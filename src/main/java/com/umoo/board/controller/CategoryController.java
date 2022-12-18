@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +56,12 @@ public class CategoryController {
     /**
      * 카테고리 수정
      */
+    @GetMapping("/category/modify")
+    public String categoryModify(List<Category> categoryList) {
+//        categoryService.(category);
+
+        return "redirect:/category/settings";
+    }
 
     /**
      * 카테고리 삭제

@@ -4,6 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
       layout:decorate="~{./layout/default_layout}">
 
+<th block layout:fragment="script">
 <script th:inline="javascript">
     /*<![CDATA[*/
     function deleteCategory() {
@@ -13,8 +14,36 @@
             location.href="/category/delete/"+id;
         }
     }
+
+    $(document).ready(function() {
+        let val, text;
+        $("#toLeft").click(function(){
+            val = ''
+            text = ''
+            $.each($("#rsel option:selected"), function(){
+                val = $(this).val();
+                text = $(this).text();
+                $("#lsel").append(`<option value=${val}>${text}</option>`);
+            });
+            $('#rsel option:selected').remove();
+        });
+
+        $("#toRight").click(function(){
+            val = ''
+            text = ''
+
+            $.each($("#lsel option:selected"), function(){
+                val = $(this).val();
+                text = $(this).text();
+                $("#rsel").append(`<option value=${val}>${text}</option>`);
+            });
+            $('#lsel option:selected').remove();
+        });
+    });
+
     /*]]>*/
 </script>
+</th>
 
 <th block layout:fragment="css">
     <style>
@@ -35,9 +64,29 @@
         height: 40%;
     }
 
+    .selstyle {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        padding: 0.5em 1em 0.5em 0.5em;
+        margin: 30px;
+        border: solid 1px;
+        height: 40%;
+    }
+
     .naran {
-        display: inline-block;
+        display: flex;
         width: 100%
+    }
+
+    .sel {
+        height: 20em;
+    }
+
+    div .btn {
+        margin: 1em;
+        display: block;
+        position: relative;
     }
 
 </style>
@@ -48,32 +97,29 @@
             <select name="parentId">
                 <option value="0">최상위 카테고리</option>
                 <th block th:each="category:${categories}">
-                    <option th:value="${category.id}" th:text="|${'└' * category.depth} ${category.name}|" >
+                    <option th:value="${category.id}" th:text="|${'＞' * category.depth} ${category.name}|" >
                 </th>
             </select>
-            <input type="text" name="name">
+            <input class="selstyle" type="text" name="name">
             <input type="submit" value="추가">
         </form>
 
         <a class="btn" href="#" th:onclick="|javascript:deleteCategory()|">삭제</a>
+        <a class="btn" href="/category/modify" >저장</a>
 
-        <form action="/category/modify" name="category" id="forMod" method="post">
+        <form action="/category/modify" name="categoryList" id="forMod" method="post">
 <!--        1. 미 노출 중인 리스트 | 노출 중인 리스트-->
 <!--        위와 같이 두 개 영역으로 나누어 출력-->
-            <div class="naran">
-            <div style="width:20%">
-                <select name="categoryId" size="15" multiple>
-                    <option th:each="category: ${categories}" th:if="${category.isView}==false" th:value="${category.id}" th:text="|${'└' * category.depth} ${category.name}|"></option>
-                </select>
-            </div>
-            <div style="width:10%"><a href="#">▶</a></div>
-            <div style="width:10%"><a href="#">◀</a></div>
-            <div style="width:20%">
-                <select name="categoryId" size="15" multiple>
-                    <option th:each="category: ${categories}" th:if="${category.isView}==true" th:value="${category.id}" th:text="|${'└' * category.depth} ${category.name}|"></option>
-                </select>
-            </div>
-            </div>
+        <div class="naran">
+            <select class="sel" id="lsel" name="lcategory" multiple>
+                <option th:each="category: ${categories}" th:if="${category.isView}==false" th:value="${category.id}" th:text="|${'＞' * category.depth} ${category.name}|"></option>
+            </select>
+            <div style="margin-top: 6em;" ><a class="btn" id="toRight" href="#">▶</a><a class="btn" id="toLeft" href="#">◀</a></div>
+            <select class="sel" id="rsel" name="rcategory" multiple>
+                <option th:each="category: ${categories}" th:if="${category.isView}==true" th:value="${category.id}" th:text="|${'＞' * category.depth} ${category.name}|"></option>
+            </select>
+
+        </div>
 
 <!--        2. ◀, ▶ 두 개 아이콘을 클릭하여 노출 미 노출을 결정할 수 있고,-->
 <!--        해당 페이지에서 옮겨진 내용을 확인할 수 있도록 출력-->
