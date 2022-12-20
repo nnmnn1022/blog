@@ -8,6 +8,7 @@ src/main/resources/*-*.properties
 
 ### files ###
 static/files/
+**.p12
 
 ### STS ###
 .apt_generated
